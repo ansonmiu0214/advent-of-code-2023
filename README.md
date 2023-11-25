@@ -1,5 +1,8 @@
 # _Multilingual_ Advent of Code 2023
 
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white)
+
 [**_Advent of Code_**](https://adventofcode.com/2023)
 is a great opportunity to brush up on existing languages
 and learn some new ones!
