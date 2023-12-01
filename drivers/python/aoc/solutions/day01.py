@@ -1,3 +1,6 @@
+# built-ins
+import functools
+
 # project
 from aoc.helpers.runnerlib import run_solution
 
@@ -15,12 +18,12 @@ _SPELLING_TO_INT = {
 }
 
 
-def parse_digits(line: str) -> list[int]:
+def parse_digits(line: str, *, english_aware: bool) -> list[int]:
     digits: list[int] = []
     for idx in range(len(line)):
         if line[idx].isdigit():
             digits.append(int(line[idx]))
-        else:
+        elif english_aware:
             for spelling, number in _SPELLING_TO_INT.items():
                 if line[idx:].startswith(spelling):
                     digits.append(number)
@@ -28,17 +31,19 @@ def parse_digits(line: str) -> list[int]:
     return digits
 
 
-def parse_calibration_value(line: str) -> int:
-    digits = parse_digits(line)
+def parse_calibration_value(line: str, *, english_aware: bool) -> int:
+    digits = parse_digits(line, english_aware=english_aware)
     return (digits[0] * 10) + digits[-1]
 
 
 def part1(input: str) -> int:
-    return sum(map(parse_calibration_value, input.splitlines()))
+    parse_calibration = functools.partial(parse_calibration_value, english_aware=False)
+    return sum(map(parse_calibration, input.splitlines()))
 
 
 def part2(input: list[str]) -> int:
-    return sum(map(parse_calibration_value, input.splitlines()))
+    parse_calibration = functools.partial(parse_calibration_value, english_aware=True)
+    return sum(map(parse_calibration, input.splitlines()))
 
 
 if __name__ == "__main__":
