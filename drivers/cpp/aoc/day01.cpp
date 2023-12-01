@@ -2,81 +2,84 @@
 #include <aoclib_solutionsrunner.h>
 
 // stdlib
-#include <cassert>
-#include <climits>
-#include <format>
-#include <functional>
+#include <cctype>
 #include <numeric>
-#include <iostream>
+#include <ranges>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace {
 
-std::vector<int> groupCaloriesByElf(const std::vector<std::string> &lines)
+const std::unordered_map<std::string, int> _SPELLING_TO_INT = {
+    {"one", 1},
+    {"two", 2},
+    {"three", 3},
+    {"four", 4},
+    {"five", 5},
+    {"six", 6},
+    {"seven", 7},
+    {"eight", 8},
+    {"nine", 9}
+};
+
+struct ParseOptions {
+    bool englishAware;
+};
+
+std::vector<int> parseDigits(std::string_view line, ParseOptions options)
 {
-    std::vector<int> caloriesByElf;
-
-    int caloriesForCurrentElf = 0;
-    for (const auto &line : lines) {
-        if (line.empty()) {
-            caloriesByElf.push_back(caloriesForCurrentElf);
-            caloriesForCurrentElf = 0;
+    std::vector<int> digits;
+    for (int idx = 0; idx < line.size(); ++idx) {
+        if (std::isdigit(line[idx])) {
+            digits.push_back(line[idx] - '0');
         }
-        else {
-            caloriesForCurrentElf += std::stoi(line);
+        else if (options.englishAware) {
+            for (const auto& [spelling, number] : _SPELLING_TO_INT) {
+                if (line.substr(idx, spelling.size()) == spelling) {
+                    digits.push_back(number);
+                    break;
+                }
+            }
         }
     }
 
-    // Don't forget the last elf(!)
-
-    if (caloriesForCurrentElf > 0) {
-        caloriesByElf.push_back(caloriesForCurrentElf);
-    }
-
-    return caloriesByElf;
+    return digits;
 }
 
-int findElfWithMostCalories(const std::vector<int>& caloriesByElf)
+int parseCalibrationValue(std::string_view line, ParseOptions options)
 {
-    return std::accumulate(caloriesByElf.cbegin(),
-                           caloriesByElf.cend(),
-                           INT_MIN,
-                           std::ranges::max);
+    const auto& digits = parseDigits(line, options);
+    return (digits.front() * 10) + digits.back();
 }
 
 int part1(const std::vector<std::string> &lines)
 {
-    const auto &caloriesByElf = groupCaloriesByElf(lines);
-    assert(!caloriesByElf.empty());
+    auto parseCalibration = [](std::string_view line) {
+        return parseCalibrationValue(line, {.englishAware = false});
+    };
 
-    return findElfWithMostCalories(caloriesByElf);
-}
-
-template <unsigned int N>
-int totalCaloriesAmongElvesWithMostCalories(std::vector<int> caloriesByElf)
-{
-    std::partial_sort(caloriesByElf.begin(),
-                      caloriesByElf.begin() + N,
-                      caloriesByElf.end(),
-                      std::greater{});
-
-    return std::accumulate(caloriesByElf.cbegin(),
-                           caloriesByElf.cbegin() + N,
-                           0);   
+    auto calibrationValues = lines
+                           | std::views::transform(parseCalibration);
+    return std::accumulate(calibrationValues.begin(), calibrationValues.end(), 0);
 }
 
 int part2(const std::vector<std::string> &lines)
 {
-    auto caloriesByElf = groupCaloriesByElf(lines);
-    assert(!caloriesByElf.empty());
+    auto parseCalibration = [](std::string_view line) {
+        return parseCalibrationValue(line, {.englishAware = true});
+    };
 
-    return totalCaloriesAmongElvesWithMostCalories<3>(caloriesByElf);
+    auto calibrationValues = lines
+                           | std::views::transform(parseCalibration);
+    return std::accumulate(calibrationValues.begin(), calibrationValues.end(), 0);
 }
 
-std::string formatAnswer(int calories)
-{
-    return std::format("{:L} calories", calories);
+std::string formatAnswer(int answer) {
+    // NOTE: hope to move away from this once we have a fix
+    // in 'aoclib_solutionsrunner'!
+
+    return std::to_string(answer);
 }
 
 }   // closing unnamed namespace
