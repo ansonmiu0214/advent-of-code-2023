@@ -7,5 +7,5 @@ foreach(filename ${solutions})
     add_executable(${executable} ${filename})
     target_include_directories(${executable} PRIVATE "${CMAKE_SOURCE_DIR}/lib")
 
-    target_link_libraries(${executable} PRIVATE libaoc)
+    target_link_libraries(${executable} PRIVATE aoc)
 endforeach()
