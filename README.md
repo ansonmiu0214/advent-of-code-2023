@@ -52,13 +52,14 @@ $ ./dev.sh cpp
 
 ## Directory structure
 
-| File / Directory       | Description                                 |
-| ---------------------- | ------------------------------------------- |
-| `data/dayXX/sample.in` | Sample input for `dayXX`                    |
-| `data/dayXX/test.in`   | Test input for `dayXX`                      |
-| `drivers/LANG`         | Build context and solution for `LANG`       |
-| `dev.sh`               | Multilingual development container launcher |
-| `run.sh`               | Multilingual solution dispatcher            |
+| File / Directory         | Description                                 |
+| ------------------------ | ------------------------------------------- |
+| `data/dayXX/sample-1.in` | Sample input for part 1 of `dayXX`          |
+| `data/dayXX/sample-2.in` | Sample input for part 2 of `dayXX`          |
+| `data/dayXX/test.in`     | Test input for `dayXX`                      |
+| `drivers/LANG`           | Build context and solution for `LANG`       |
+| `dev.sh`                 | Multilingual development container launcher |
+| `run.sh`                 | Multilingual solution dispatcher            |
 
 ## Extending language support
 
