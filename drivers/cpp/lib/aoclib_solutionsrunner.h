@@ -1,18 +1,35 @@
 #pragma once
 
 // stdlib
+#include <concepts>
 #include <format>
+#include <functional>
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <type_traits>
 #include <vector>
 
 namespace aoclib {
+
+// template <typename T, typename U>
+// concept Formatter = requires (T formatter, std::invoke_result_t<U, const std::vector<std::string>&> answer) {
+//     { formatter(answer) -> std::template convertible_to<std::string> };
+// };
 
                             // =====================
                             // class SolutionsRunner
                             // =====================
 
+// template <
+//     typename T,
+//     typename U = std::function<
+//         std::string(
+//             std::invoke_result_t<T, const std::vector<std::string>&>
+//         )
+//     >
+// >
+// template <typename T, Formatter<T> U>
 template <typename T, typename U>
 class SolutionsRunner {
   private:  
@@ -35,6 +52,7 @@ class SolutionsRunner {
                             // ---------------------
 
 // CREATORS
+// template <typename T, Formatter<T> U>
 template <typename T, typename U>
 SolutionsRunner<T, U>::SolutionsRunner(const T &solveForPart1,
                                        const T &solveForPart2,
@@ -46,6 +64,7 @@ SolutionsRunner<T, U>::SolutionsRunner(const T &solveForPart1,
 }
 
 // ACCESSORS
+// template <typename T, Formatter<T> U>
 template <typename T, typename U>
 int SolutionsRunner<T, U>::main(int argc, const char **argv) const
 {
