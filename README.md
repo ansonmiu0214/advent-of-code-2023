@@ -25,7 +25,7 @@ arguments:
   LANGUAGE     the programming language
   DAY          the day of a problem, day{01..25}
   PART         the part of a problem, part{1,2}
-  INPUT_TYPE   type of input file, {sample,test}
+  INPUT_TYPE   type of input file
 ```
 
 ```bash
@@ -38,10 +38,10 @@ arguments:
 
 ### Examples
 
-Run the **Python** solution for **part 1** of **day 2**'s problem, using the **sample** input:
+Run the **Python** solution for **part 1** of **day 2**'s problem, using the **sample-1.in** input:
 
 ```bash
-$ ./run.sh python day02 part1 sample
+$ ./run.sh python day02 part1 sample-1
 ```
 
 Open a development container for working on **C++** solutions:

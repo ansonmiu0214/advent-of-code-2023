@@ -2,13 +2,13 @@
 import argparse
 import time
 from pathlib import Path
-from typing import Literal, Protocol
+from typing import Protocol
 
 
 class CommandLineArgs(Protocol):
     day: str
     part: 1 | 2
-    input_type: Literal["sample"] | Literal["test"]
+    input_type: str
 
 
 class Formatter[T](Protocol):
@@ -28,7 +28,7 @@ def run_solution[T](
     prog = argparse.ArgumentParser()
     prog.add_argument("--day", type=str, required=True)
     prog.add_argument("--part", type=int, choices=[1, 2], required=True)
-    prog.add_argument("--input-type", type=str, choices=["sample", "test"], required=True)
+    prog.add_argument("--input-type", type=str, required=True)
 
     args: CommandLineArgs = prog.parse_args()
 

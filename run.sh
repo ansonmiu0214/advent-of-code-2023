@@ -29,7 +29,7 @@ if [[ ! -d "$LANGDIR" ]]; then
     exit 1
 fi
 
-if [[ ! -d "$LANGDIR/run.sh" ]]; then
+if [[ ! -f "$LANGDIR/run.sh" ]]; then
     echo "No 'run.sh' driver for language: $LANG"
     exit 1
 fi
@@ -47,10 +47,6 @@ if [[ "$PART" != "part1" ]] && [[ "$PART" != "part2" ]]; then
 fi
 
 INPUT_TYPE=$4
-if [[ "$INPUT_TYPE" != "sample" ]] && [[ "$INPUT_TYPE" != "test" ]]; then
-    echo "Invalid input type supplied: $INPUT_TYPE"
-    exit 1
-fi
 
 shift
 
